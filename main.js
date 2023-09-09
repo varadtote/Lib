@@ -8,16 +8,16 @@ function Book(Title, Author, Pages, Status) {
     this.Id = Book.nextBookId++;
 }
 
-let addBook = document.querySelector('.addBook');
-addBook.addEventListener('click', Storebook)
+let addBook = document.querySelector(".addBook");
+addBook.addEventListener("click", Storebook);
 
 function Storebook(event) {
     event.preventDefault();
 
-    let bookTitleInput = document.getElementById('bookTitle');
-    let bookAuthorInput = document.getElementById('bookAuthor');
-    let bookPagesInput = document.getElementById('bookPages');
-    let bookStatusInput = document.getElementById('bookStatus');
+    let bookTitleInput = document.getElementById("bookTitle");
+    let bookAuthorInput = document.getElementById("bookAuthor");
+    let bookPagesInput = document.getElementById("bookPages");
+    let bookStatusInput = document.getElementById("bookStatus");
 
     let bookTitle = bookTitleInput.value;
     let bookAuthor = bookAuthorInput.value;
@@ -38,46 +38,49 @@ function Storebook(event) {
     console.log(bookStore);
 }
 
-const deleteBtn = document.createElement('button')
-deleteBtn.setAttribute('class', 'deleteBtn')
-deleteBtn.innerText = "Delete"
-deleteBtn.addEventListener('click', () => { deleteBook(Book.Id) })
+const deleteBtn = document.createElement("button");
+deleteBtn.setAttribute("class", "deleteBtn");
+deleteBtn.innerText = "Delete";
+deleteBtn.addEventListener("click", () => {
+    deleteBook(Book.Id);
+});
 
-const updateStatusBtn = document.createElement('button')
-updateStatusBtn.setAttribute('class', 'updateStatusBtn')
-updateStatusBtn.innerText = "Update Status"
-updateStatusBtn.addEventListener('click', () => { updateStatus() })
-
+const updateStatusBtn = document.createElement("button");
+updateStatusBtn.setAttribute("class", "updateStatusBtn");
+updateStatusBtn.innerText = "Update Status";
+updateStatusBtn.addEventListener("click", () => {
+    updateStatus();
+});
 
 
 function addBookToScreen() {
-    let libraryStore = document.querySelector('.libraryStore');
-    libraryStore.innerHTML = '';
-    bookStore.forEach(book => {
-        let bookCard = document.createElement('div');
-        bookCard.setAttribute('class', 'bookCard');
-        let title = document.createElement('h1');
-        let author = document.createElement('h3');
-        let pages = document.createElement('p');
-        let status = document.createElement('h4');
+    let libraryStore = document.querySelector(".libraryStore");
+    libraryStore.innerHTML = "";
+    bookStore.forEach((book) => {
+        let bookCard = document.createElement("div");
+        bookCard.setAttribute("class", "bookCard");
+        let title = document.createElement("h1");
+        let author = document.createElement("h3");
+        let pages = document.createElement("p");
+        let status = document.createElement("h4");
 
         title.innerText = book.Title;
         author.innerText = book.Author;
         pages.innerText = book.Pages;
         status.innerText = book.Status;
 
-        let deleteBtn = document.createElement('button');
-        deleteBtn.setAttribute('class', 'deleteBtn');
-        deleteBtn.innerText = 'Delete';
-        deleteBtn.addEventListener('click', () => {
+        let deleteBtn = document.createElement("button");
+        deleteBtn.setAttribute("class", "deleteBtn");
+        deleteBtn.innerText = "Delete";
+        deleteBtn.addEventListener("click", () => {
             deleteBook(book.Id); // Pass the book's Id
         });
 
-        let updateStatusBtn = document.createElement('button');
-        updateStatusBtn.setAttribute('class', 'updateStatusBtn');
-        updateStatusBtn.innerText = 'Update Status';
-        updateStatusBtn.addEventListener('click', () => {
-            updateStatus(book);
+        let updateStatusBtn = document.createElement("button");
+        updateStatusBtn.setAttribute("class", "updateStatusBtn");
+        updateStatusBtn.innerText = "Update Status";
+        updateStatusBtn.addEventListener("click", () => {
+            updateStatus(book); // Pass the book object
         });
 
         bookCard.appendChild(title);
@@ -91,23 +94,19 @@ function addBookToScreen() {
 }
 
 function deleteBook(Id) {
-
     bookStore = bookStore.filter((book) => book.Id !== Id);
-    addBookToScreen();
-
-    function updateStatus(book) {
-        if (book.Status === "Reading") {
-            book.Status = "Completed";
-            addBookToScreen();
-        }
-        else if (book.Status === "Not Yet Started") {
-            book.Status = "Reading";
-            addBookToScreen();
-        }
-        else if (book.Status === "Completed") {
-            book.Status = "Not Yet Started";
-            addBookToScreen();
-        }
-    }
+    addBookToScreen(); // Update the UI after deleting
 }
 
+function updateStatus(book) {
+    if (book.Status === "Reading") {
+        book.Status = "Completed";
+        addBookToScreen(); // Update the UI after changing the status
+    } else if (book.Status === "Not Yet Started") {
+        book.Status = "Reading";
+        addBookToScreen();
+    } else if (book.Status === "Completed") {
+        book.Status = "Reading";
+        addBookToScreen();
+    }
+}
